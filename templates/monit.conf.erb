@@ -1,0 +1,17 @@
+set daemon  120
+    with start delay 120
+set logfile syslog facility log_daemon
+
+set mailserver smtp.gmail.com port 587
+    username "<%= gmail_account %>" password "<% gmail_password %>"
+    with timeout 30 seconds
+
+set mail-format {
+    from: <%= mail_from %>
+    subject: [$HOST] $SERVICE $EVENT at $DATE
+    message: Monit $ACTION $SERVICE at $DATE on $HOST.
+}
+
+set alert <% mail_to %>
+
+include /etc/monit.d/*
